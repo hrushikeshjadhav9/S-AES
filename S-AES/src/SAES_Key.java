@@ -111,7 +111,7 @@ public class SAES_Key {
      *                     S-Box.
      **************************************************************************/
     protected static byte subNib(byte[] nibArr) {
-
+        // x, y, xx, yy are indexes into the SBox
         int x, y;
         x = (nibArr[0] >>> 0x02) & 0x03;
         y = nibArr[0] & 0x03;
@@ -163,12 +163,11 @@ public class SAES_Key {
         byte w5 = (byte)(w3 ^ w4);
         
         // key[0-2] are the 16-bit keys. I have to AND with 0x00FF because if 
-        // the most sig digit is one then Java will pad the rest of the bits 
-        // with ones.
+        // the most sig digit is 1 then Java will pad the rest of the bits 
+        // with 1s.
         key[0] = (short) ((w0 << 0x08) | (w1 & 0x00ff));
         key[1] = (short) ((w2 << 0x08) | (w3 & 0x00ff));
         key[2] = (short) ((w4 << 0x08) | (w5 & 0x00ff));
         return key;
     }
 }
-
