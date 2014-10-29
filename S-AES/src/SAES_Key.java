@@ -1,16 +1,26 @@
-/**
-
- */
-
+/** Copyright 2014 Noel Niles
+ * 
+ * This file is part of SAES
+ *
+ * S-AES is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 import java.security.SecureRandom;
 
-/** Simple-AES
- * 
- * Simple implementation of Advanced Encryption Standard. The main difference
- * between standard AES and S-AES is that AES does 10/12/14 rounds while S-AES 
- * only does 3 rounds. Also the block size for S-AES is 16-bits compared to AES
- * which uses 128-bit block sizes.
+/** S-AES_Keys
  *
+ * Generates an array of keys using the methods outlined in the Simplified AES
+ * algorithm.
  * @author Noel Niles
  * @version 1.0
  * @since 2014-10-28
@@ -18,6 +28,7 @@ import java.security.SecureRandom;
 public class SAES_Key {
     
     /** S-AES State Matrix
+     * 
      * The current state of the message. During encryption/decryption this 
      * matrix will change every round.
      **************************************************************************/
@@ -36,9 +47,9 @@ public class SAES_Key {
     private static final byte[] rCon = {(byte)0x80,(byte)0x30};
     
     /** S-Box
- 
- S-AES lookup table used to swap nibbles in SAES_g function during key 
- expansion.
+     * 
+     * S-AES lookup table used to swap nibbles in SAES_g function during key 
+     * expansion.
      **************************************************************************/
     private static final byte[][] SBox = 
         {{0x09, 0x04, 0x0a, 0x0b},
@@ -77,7 +88,7 @@ public class SAES_Key {
         return key;
     }
 
-    /** Swaps the left and right nibbles in a word. 
+    /** Swaps the left and right nibbles in a word.
      * 
      * Returns an array of two bytes, but only the first 4-bits from each byte 
      * are used the rest should be zero.
@@ -93,7 +104,7 @@ public class SAES_Key {
         return rotWord;
     }
     
-    /** Substitutes nibbles using a table look in S-AES S-Box. 
+    /** Substitutes nibbles using a table look in S-AES S-Box.
      * 
      * @param  nibArr: byte array that is output from the rotNib function.
      * @return subbedByte: a new nibble that is found using a table lookup from 
@@ -115,7 +126,7 @@ public class SAES_Key {
         return subbedByte;
     }
     
-    /** S-AES SAES_g function.
+    /** SAES_g function.
      * 
      * Used during key expansion.
      * @param w: 8-bit word.
