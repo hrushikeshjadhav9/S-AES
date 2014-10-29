@@ -64,7 +64,7 @@ public class SAES_Key {
      * 
      * @return key: 2x2 matrix with one nibble in each cell.
      **************************************************************************/
-    public static byte[][] genKey(){
+    protected static byte[][] genKey(){
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[1];
         byte key[][] = new byte[2][2];
@@ -86,7 +86,7 @@ public class SAES_Key {
      * @return rotWord: w with a circular shift performed on the nibbles.
      * @example rotNib(0x2d) = 0xd2
      **************************************************************************/
-    public static byte[] rotNib(byte w) {
+    protected static byte[] rotNib(byte w) {
         byte lnib = (byte) ((w & 0xf0) >>> 0x04);
         byte rnib = (byte) ((w & 0x0f));
         byte[] rotWord = {rnib, lnib};
@@ -124,7 +124,7 @@ public class SAES_Key {
      * 
      * @TODO Build tests
      **************************************************************************/
-    public static byte SAES_g(byte w, int i) {
+    protected static byte SAES_g(byte w, int i) {
         byte[] nibArr = rotNib(w);
         byte subbedNibs = subNib(nibArr);
         return (byte) (subbedNibs ^ rCon[i]);
@@ -139,7 +139,7 @@ public class SAES_Key {
      * 
      * @TODO Build tests. Should this return an array of 2x2 matrices?   
      **************************************************************************/
-    public static short[] keyExpansion(byte[][] cipherKey){
+    protected static short[] keyExpansion(byte[][] cipherKey){
         // Array of 16-bit keys
         short key[] = new short[3];
         
