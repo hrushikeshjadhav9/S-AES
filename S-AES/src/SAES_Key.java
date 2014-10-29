@@ -97,7 +97,7 @@ public class SAES_Key {
      * @return rotWord: w with a circular shift performed on the nibbles.
      * @example rotNib(0x2d) = 0xd2
      **************************************************************************/
-    protected static byte[] rotNib(byte w) {
+    protected static byte[] rotNib(final byte w) {
         byte lnib = (byte) ((w & 0xf0) >>> 0x04);
         byte rnib = (byte) ((w & 0x0f));
         byte[] rotWord = {rnib, lnib};
@@ -110,7 +110,7 @@ public class SAES_Key {
      * @return subbedByte: a new nibble that is found using a table lookup from 
      *                     S-Box.
      **************************************************************************/
-    protected static byte subNib(byte[] nibArr) {
+    protected static byte subNib(final byte[] nibArr) {
         // x, y, xx, yy are indexes into the SBox
         int x, y;
         x = (nibArr[0] >>> 0x02) & 0x03;
@@ -135,7 +135,7 @@ public class SAES_Key {
      * 
      * @TODO Build tests
      **************************************************************************/
-    protected static byte SAES_g(byte w, int i) {
+    protected static byte SAES_g(final byte w, final int i) {
         byte[] nibArr = rotNib(w);
         byte subbedNibs = subNib(nibArr);
         return (byte) (subbedNibs ^ rCon[i]);
@@ -150,7 +150,7 @@ public class SAES_Key {
      * 
      * @TODO Build tests. Should this return an array of 2x2 matrices?   
      **************************************************************************/
-    protected static short[] keyExpansion(byte[][] cipherKey){
+    protected static short[] keyExpansion(final byte[][] cipherKey){
         // Array of 16-bit keys
         short key[] = new short[3];
         
