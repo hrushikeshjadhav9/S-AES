@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- *along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 import java.security.SecureRandom;
 
@@ -26,16 +26,7 @@ import java.security.SecureRandom;
  * @since 2014-10-28
  */
 public class SAES_Key {
-    
-    /** S-AES State Matrix
-     * 
-     * The current state of the message. During encryption/decryption this 
-     * matrix will change every round.
-     **************************************************************************/
-    private static byte[][] state;
-    
     public SAES_Key(){
-        state = new byte[2][2];
     }
     
     /** Round constants
