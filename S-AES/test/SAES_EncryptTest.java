@@ -38,10 +38,10 @@ public class SAES_EncryptTest {
     @Test
     public void addKeyTest() {
         System.out.println("Testing addKey() from SAES_Encrypt");
-        byte[][] state = {{0xa,4},{7,9}};
-        byte[][] key = {{0x02, 0x0d}, {0x05, 0x05}};       
-        byte[][] expResult = {{8,1},{0xa,0xc}};  
-        byte[][] result = SAES_Encrypt.addKey(state, key);
+        final byte[][] state = {{0xa,4},{7,9}};
+        final byte[][] key = {{0x02, 0x0d}, {0x05, 0x05}};       
+        final byte[][] expResult = {{8,1},{0xa,0xc}};  
+        final byte[][] result = SAES_Encrypt.addKey(state, key);
         assertArrayEquals(expResult, result);
     }
     @Test
@@ -50,5 +50,14 @@ public class SAES_EncryptTest {
         final byte[] nibArr = {0x8, 0x1, 0xa, 0xc};
         final int expResult = 0x64c0;
         final byte result = SAES_Encrypt.substituteNibbles(nibArr);
+    }
+    @Test
+    public void shiftRowsTest(){
+        System.out.println("Testing shiftRows() from SAES_Encrypt");
+        final byte[][] state = {{6, 4}, {0, 0xc}};
+        final byte[][] expResult ={{6, 4}, {0xc, 0}};
+        final byte[][] result = SAES_Encrypt.shiftRows(state);
+        assertArrayEquals(expResult, result);
+        
     }
 }

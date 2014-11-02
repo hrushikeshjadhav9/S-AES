@@ -43,4 +43,20 @@ public class SAES_Encrypt {
     protected static byte substituteNibbles(final byte[] nibArr){
         return SAES_Key.subNib(nibArr);
     }
+    
+    protected static byte[][] shiftRows(final byte[][] state){
+        final byte w0 = state[0][0];
+        final byte w1 = state[0][1];
+        final byte w2 = state[1][0];
+        final byte w3 = state[1][1];
+        
+        final byte[][] rotatedState = new byte[2][2];
+        rotatedState[0][0] = w0;
+        rotatedState[0][1] = w1;
+        rotatedState[1][0] = w3;
+        rotatedState[1][1] = w2;
+        
+        return rotatedState;
+        
+    }
 }
