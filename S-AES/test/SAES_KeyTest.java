@@ -63,7 +63,7 @@ public class SAES_KeyTest {
     /**
      * Test of genKey method, of class SAES_Keys.
      * 
-     * Only tests length of array. Might not be very useful.
+     * Only tests length of array. Is not very useful.
      */
     @Test
     public void testGenKey() {

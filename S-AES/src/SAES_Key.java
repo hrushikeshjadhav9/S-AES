@@ -131,7 +131,7 @@ public class SAES_Key {
         byte subbedNibs = subNib(nibArr);
         return (byte) (subbedNibs ^ rCon[i]);
     }
-    
+     
     /** S-AES Key Expansion
      * 
      * Expands the 16-bit key into an array of shorts. The 3 shorts in the 
@@ -144,7 +144,7 @@ public class SAES_Key {
     protected static short[] keyExpansion(final byte[][] cipherKey){
         // Array of 16-bit keys
         short key[] = new short[3];
-        
+    
         // w0-w5 are 8-bit words.
         byte w0 = (byte)((cipherKey[0][0] << 0x04) | cipherKey[0][1]);
         byte w1 = (byte)((cipherKey[1][0] << 0x04) | cipherKey[1][1]);
@@ -158,7 +158,7 @@ public class SAES_Key {
         // with 1s.
         key[0] = (short) ((w0 << 0x08) | (w1 & 0x00ff));
         key[1] = (short) ((w2 << 0x08) | (w3 & 0x00ff));
-        key[2] = (short) ((w4 << 0x08) | (w5 & 0x00ff));
+        key[2] = (short) ((w4 << 0x08) | (w5 & 0x00ff));       
         return key;
     }
 }
