@@ -60,4 +60,12 @@ public class SAES_EncryptTest {
         assertArrayEquals(expResult, result);
         
     }
+    @Test
+    public void mixColumnsTest(){
+        System.out.println("Testing mixColumns from SAES_Encrypt");
+        final byte[][] state ={{6, 4}, {0xc, 0}};
+        final byte[][] expResult ={{3, 4}, {0x7, 0x3}};
+        final byte[][] result = SAES_Encrypt.mixColumns(state);
+        assertArrayEquals(expResult, result);
+    }
 }
