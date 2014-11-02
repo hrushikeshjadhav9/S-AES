@@ -24,12 +24,23 @@ public class SAES_Encrypt {
      * 
      * @TODO fix the key expansion so that the loop is nicer.
      */
-    protected static byte[][] addKey(byte[][] state, byte[][] key){               
+    protected static byte[][] addKey(final byte[][] state, final byte[][] key){               
         byte[][] newState = new byte[2][2];
         newState[0][0] = (byte) (state[0][0] ^ key[0][0]);
         newState[0][1] = (byte) (state[0][1] ^ key[1][0]);     
         newState[1][0] = (byte) (state[1][0] ^ key[0][1]);       
         newState[1][1] = (byte) (state[1][1] ^ key[1][1]);
         return newState;
+    }
+    
+    /** S-Box lookup.
+     * 
+     * @param nibArr 
+     * @return
+     * 
+     * @TODO consolidate these function into a utility maybe?
+     */
+    protected static byte substituteNibbles(final byte[] nibArr){
+        return SAES_Key.subNib(nibArr);
     }
 }

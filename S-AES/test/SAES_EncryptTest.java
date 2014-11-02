@@ -44,4 +44,11 @@ public class SAES_EncryptTest {
         byte[][] result = SAES_Encrypt.addKey(state, key);
         assertArrayEquals(expResult, result);
     }
+    @Test
+    public void substituteNibblesTest(){
+        System.out.println("Testing substituteNibbles() from SAES_Encrypt");
+        final byte[] nibArr = {0x8, 0x1, 0xa, 0xc};
+        final int expResult = 0x64c0;
+        final byte result = SAES_Encrypt.substituteNibbles(nibArr);
+    }
 }
