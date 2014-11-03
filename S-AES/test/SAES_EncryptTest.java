@@ -1,6 +1,6 @@
 /** Copyright 2014 Noel Niles
  * 
- * This file is part of SAES
+ * This file is part of SAES.
  *
  * S-AES is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,43 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/** S-AES_Encrypt Tests.
+ *
+ * Various functions used to encrypt by S-AES
+ * 
+ * @author Noel Niles
+ * @version 1.0
+ * @since 2014-10-28
+ ******************************************************************************/
+
 public class SAES_EncryptTest {
-    
-    public SAES_EncryptTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-    @Test
-    public void addKeysTest(){}
-    @Test
-    public void shortToMatrix(){
-        //System.out.println("Testing shortToMatrix");
-        final short input = 0x2d55;
-        final byte[][] expResult = {{0x02, 0x05}, {0x0d, 0x05}};
-        final byte[][] result = SAES_Util.shortToMatrix(input);
-        assertArrayEquals(expResult, result);
-    }
     
     @Test
     public void substituteNibblesTest(){
@@ -85,7 +61,7 @@ public class SAES_EncryptTest {
      * 
      * Given plaintext = 0x6f6b and key = 0xa73b the 
      * result should be 0x0738
-     */
+     **************************************************************************/
     public void SAES_EncryptionRoundTest(){
         short plainText = 0x6f6b;
         byte[][] key = {{0xa, 0x7}, {0x3, 0xb}};

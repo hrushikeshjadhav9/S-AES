@@ -1,6 +1,6 @@
 /** Copyright 2014 Noel Niles
  * 
- * This file is part of SAES
+ * This file is part of SAES.
  *
  * S-AES is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-/** S-AES_Encrypt
+
+/** S-AES_Encrypt.
  *
  * Various functions used to encrypt by S-AES
  * 
  * @author Noel Niles
  * @version 1.0
  * @since 2014-10-28
- */
+ ******************************************************************************/
 public class SAES_Encrypt {
     
     public SAES_Encrypt(){

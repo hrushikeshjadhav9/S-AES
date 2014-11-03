@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
-/** S-AES Decryption Tests.
+/** S-AES Utility Tests.
  *
  * Various functions used to encrypt by S-AES
  * 
@@ -26,17 +26,18 @@ import static org.junit.Assert.*;
  * @version 1.0
  * @since 2014-10-28
  ******************************************************************************/
-public class SAES_DecryptTest {
+public class SAES_UtilTest {
     
-    public SAES_DecryptTest() {
+    public SAES_UtilTest() {
+    }
+
+     @Test
+    public void shortToMatrix(){
+        //System.out.println("Testing shortToMatrix");
+        final short input = 0x2d55;
+        final byte[][] expResult = {{0x02, 0x05}, {0x0d, 0x05}};
+        final byte[][] result = SAES_Util.shortToMatrix(input);
+        assertArrayEquals(expResult, result);
     }
     
-    @Test
-    public void SAES_DecryptionRoundTest(){
-        short cipherText = 0x0738;
-        byte[][] key = {{0xa, 0x7}, {0x3, 0xb}};
-        short expResult = 0x6f6b;
-        short result = SAES_Decrypt.SAES_DecryptionRound(cipherText, key);
-        assertEquals(expResult, result);
-    }
 }

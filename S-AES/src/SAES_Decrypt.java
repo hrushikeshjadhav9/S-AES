@@ -1,8 +1,29 @@
-
-/**
+/** Copyright 2014 Noel Niles
+ * 
+ * This file is part of SAES.
  *
- * @author noel
- */
+ * S-AES is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
+/** S-AES Decryption.
+ *
+ * Various functions used to encrypt by S-AES
+ * 
+ * @author Noel Niles
+ * @version 1.0
+ * @since 2014-10-28
+ ******************************************************************************/
 public class SAES_Decrypt {
 
     public SAES_Decrypt(){
@@ -94,7 +115,7 @@ public class SAES_Decrypt {
         byte[][] k2 = SAES_Util.shortToMatrix(keyArray[1]);
         byte[][] k3 = SAES_Util.shortToMatrix(keyArray[2]);
         
-        System.out.printf("***Begin Decryption Keys***\n", k3);
+        System.out.printf("***Begin Decryption Keys***\n");
         System.out.printf("Decryption key1: %x%x%x%x\n", k1[0][0], k1[1][0],
                 k1[0][1], k1[1][1]);
         System.out.printf("Decryption key2: %x%x%x%x\n", k2[0][0], k2[1][0],

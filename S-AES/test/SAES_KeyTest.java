@@ -1,6 +1,6 @@
 /** Copyright 2014 Noel Niles
  * 
- * This file is part of SAES
+ * This file is part of SAES.
  *
  * S-AES is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,10 @@
  * You should have received a copy of the GNU General Public License
  *along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/** S-AES_KeyTest
+/** S-AES_KeyTest.
  * 
  * Simple implementation of Advanced Encryption Standard. The main difference
  * between standard AES and S-AES is that AES does 10/12/14 rounds while S-AES 
@@ -32,39 +28,16 @@ import static org.junit.Assert.*;
  * @author Noel Niles
  * @version 1.0
  * @since 2014-10-28
- */
+ ******************************************************************************/
 public class SAES_KeyTest {
     
     public SAES_KeyTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-    
     /**
      * Test of genKey method, of class SAES_Keys.
      * 
      * Only tests length of array. Is not very useful.
-     */
+     **************************************************************************/
     @Test
     public void testGenKey() {
         // System.out.println("genKey");
@@ -74,9 +47,8 @@ public class SAES_KeyTest {
         assertEquals(expResult, result[0].length);
         assertEquals(expResult, result[1].length);
     }
-    /**
-     * Test of subNib method, of class SAES_Keys.
-     */
+    
+    /** Test of subNib method, of class SAES_Keys. **/
     @Test
     public void testSubNib() {
         byte[] nib = {0x05, 0x05};
@@ -85,9 +57,7 @@ public class SAES_KeyTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of rotNib method, of class SAES_Keys.
-     */
+    /** Tests rotNib. **/
     @Test
     public void testRotNib() {
         //System.out.println("rotNib");
@@ -97,9 +67,7 @@ public class SAES_KeyTest {
         assertArrayEquals(expResult, result);
     }
     
-    /**
-     * Test of keyExpansion method, of class SAES_Keys.
-     */
+    /** Tests keyExpansion. **/
     @Test
     public void testKeyExpansion() {
         // System.out.println("keyExpansion");
