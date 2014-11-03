@@ -67,7 +67,7 @@ public class SAES_KeyTest {
      */
     @Test
     public void testGenKey() {
-        System.out.println("genKey");
+        // System.out.println("genKey");
         int expResult = 2;
         byte[][] result = SAES_Key.genKey();
         assertEquals(expResult, result.length);
@@ -90,7 +90,7 @@ public class SAES_KeyTest {
      */
     @Test
     public void testRotNib() {
-        System.out.println("rotNib");
+        //System.out.println("rotNib");
         byte w = 0x2d;
         byte[] expResult = {0x0d,0x02};
         byte[] result = SAES_Key.rotNib(w);
@@ -102,7 +102,7 @@ public class SAES_KeyTest {
      */
     @Test
     public void testKeyExpansion() {
-        System.out.println("keyExpansion");
+        // System.out.println("keyExpansion");
         byte[][] cipherKey = {{0x02, 0x0d}, {0x05, 0x05}};
         short[] expResult = {(short)0x2d55, (short)0xbce9, (short)0xa34a};
         short[] result = SAES_Key.keyExpansion(cipherKey);

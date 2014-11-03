@@ -47,22 +47,11 @@ public class SAES_Key {
          {0x0d, 0x01, 0x08, 0x05},
          {0x06, 0x02, 0x00, 0x03},
          {0x0c, 0x0e, 0x0f, 0x07}};
-    
-    /** Inverse S-Box
-     * 
-     * Inverses the transformation performed in the S-Box. Used during 
-     * decryption.
-     **************************************************************************/
-    private static final byte[][] invSBox = 
-        {{0x0a, 0x05, 0x09, 0x0b}, 
-         {0x01, 0x07, 0x08, 0x0f}, 
-         {0x06, 0x00, 0x02, 0x03}, 
-         {0x0c, 0x04, 0x0d, 0x0e}};
 
-    /** Generates a random 2x2, 16-bit, matrix key. 
+    /** Generates a random 2x2, 16-bit, matrix key Not currently used. 
      * 
      * The 16-bits are arranged in a 2x2 matrix with 4-bits in each cell. Each 
-     * cell actually contains 8-bits, but the 4 high bits are set to zero.
+     * cell actually contains 8-bits, but the 4 high bits are set to zero. 
      * 
      * @return key: 2x2 matrix with one nibble in each cell.
      **************************************************************************/
@@ -170,9 +159,9 @@ public class SAES_Key {
         byte w5 = (byte)(w3 ^ w4);
         
         // key[0-2] are the 16-bit keys.
-        key[0] = (short) ((w0 << 0x08) | (w1 & 0x00ff));
-        key[1] = (short) ((w2 << 0x08) | (w3 & 0x00ff));
-        key[2] = (short) ((w4 << 0x08) | (w5 & 0x00ff));       
+        key[0] = (short) ((w0 << 0x08) | (w1 & 0xff));
+        key[1] = (short) ((w2 << 0x08) | (w3 & 0xff));
+        key[2] = (short) ((w4 << 0x08) | (w5 & 0xff));       
         return key;
     }
 }
