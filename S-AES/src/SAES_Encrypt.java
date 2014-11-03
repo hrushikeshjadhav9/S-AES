@@ -15,21 +15,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/** S-AES_Encrypt
+ *
+ * Various functions used to encrypt by S-AES
+ * 
+ * @author Noel Niles
+ * @version 1.0
+ * @since 2014-10-28
+ */
 public class SAES_Encrypt {
     
     public SAES_Encrypt(){
         // S-AES state matrix.
-        byte state[][] = new byte[2][2];
-        
-        // Multiplication table for GF(2^4)
-        
+        byte state[][] = new byte[2][2];        
     }
     
     /** Converts a 16-bits into a 2x2 matrix f nibbles columnwise.
      * 
-     * @param s
-     * @return 
-     */
+     * @param s A short that needs to be a matrix.
+     * @return 2x2 matrix of nibbles.
+     **************************************************************************/
     protected static byte[][] shortToMatrix(final short s){
         byte[][] m = new byte[2][2];
         m[0][0] = (byte)((s >>> 12) & 0xf);
@@ -38,7 +43,7 @@ public class SAES_Encrypt {
         m[1][1] = (byte)(s & 0xf);
         return m;
     }
-    
+    // Multiplication table for GF(2^4)
     protected static byte finMul(final byte f0, final byte f1){
         byte mulTable[][] = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0,   0,   0,   0,   0,   0},
@@ -58,8 +63,7 @@ public class SAES_Encrypt {
             {0, 0xe, 0xf, 1, 0xd, 3, 2, 0xc, 9, 7, 6, 8, 4, 0xa, 0xb, 5},
             {0, 0xf, 0xd, 2, 9, 6, 4, 0xb, 1, 0xe, 0xc, 3, 8, 7, 5, 0xa}
         };   
-        byte product = 0;
-        product = mulTable[f0][f1];
+        byte product = mulTable[f0][f1];
         return product;
     }
     
@@ -71,8 +75,7 @@ public class SAES_Encrypt {
      * @param key 2x2 random nibbles
      * @return newState: state with the key added
      * 
-     * @TODO fix the key expansion so that the loop is nicer.
-     */
+     **************************************************************************/
     protected static byte[][] addKey(final byte[][] state, final byte[][] key){               
         byte[][] newState = new byte[2][2];
         newState[0][0] = (byte) (state[0][0] ^ key[0][0]);
@@ -84,15 +87,22 @@ public class SAES_Encrypt {
     
     /** S-Box lookup.
      * 
-     * @param nibArr 
+     * @param nibArr 2x2 matrix of nibbles 
      * @return
      * 
      * @TODO consolidate these function into a utility maybe?
-     */
+     **************************************************************************/
     protected static byte[][] substituteNibbles(final byte[][] nibArr){
         return SAES_Key.subNib(nibArr);
     }
     
+    /** Shifts rows according to S-AES.
+     * 
+     * Takes a 2x2 matrix and circular shifts the bottom row.
+     * 
+     * @param state
+     * @return 
+     **************************************************************************/
     protected static byte[][] shiftRows(final byte[][] state){
         final byte[][] rotatedState = new byte[2][2];
         final byte w0 = state[0][0];
@@ -110,27 +120,51 @@ public class SAES_Encrypt {
         return rotatedState;     
     }
     
+    /** Mixes the columns of a 2x2 matrix.
+     * 
+     * @param state: 2x2 matrix representing the current state of the message.
+     * @return mixedState: A new 2x2 matrix. 
+     **************************************************************************/
     protected static byte[][] mixColumns(final byte[][] state){
         final byte[][] mixedState = new byte[2][2];
         final byte[][] mixMatrix = {{1,4},{4,1}};
         
-        mixedState[0][0] = (byte)(state[0][0] ^ (finMul((byte)0x4, state[1][0])));
-        mixedState[1][0] = (byte)(finMul((byte)0x4, state[0][0]) ^ state[1][0]);
-        mixedState[0][1] = (byte)(state[0][1] ^ (finMul((byte)0x04, state[1][1])));
-        mixedState[1][1] = (byte)(finMul((byte)0x4, state[0][1]) ^ state[1][1]);
+        mixedState[0][0] = (byte)(state[0][0]^(finMul((byte)0x4, state[1][0])));
+        mixedState[1][0] = (byte)(finMul((byte)0x4, state[0][0])^state[1][0]);
+        mixedState[0][1] = (byte)(state[0][1]^(finMul((byte)0x4, state[1][1])));
+        mixedState[1][1] = (byte)(finMul((byte)0x4, state[0][1])^state[1][1]);
         return mixedState;
     }
-    // Converts a 2x2 matrix to a short columnwise.
+    /** Converts a 2x2 matrix of nibbles to a 16-bit short.
+     * 
+     * Operates columnwise. Example:
+     * 
+     *                      | 0x01 0x03 |                     
+     *                      | 0x02 0x04 | == 0x1234
+     * 
+     * @param b: 2x2 array.
+     * @return result: a short
+     **************************************************************************/
     protected static short matrixToShort(final byte[][] b){
         short result = 0; 
         result = (short)(result | b[0][0]);
         result = (short)((result << 4) | b[1][0]);
         result = (short)((result << 4) | b[0][1]);
         result = (short)((result << 4) | b[1][1]);
-        System.out.printf("new short from matrix = %x\n", result);
         return result;
     }
-    protected static short SAES_EncryptionRound(final short plainText, final byte[][] key){
+    
+    /** Performs 3 rounds of encryption.
+     * 
+     * The 0th round is just add the round key.
+     * The 1st round subsitutesNibbles, shifts rows, mixes columns and adds key.
+     * The last round does not mix columns.
+     * @param plainText: 16-bit message to be encrypted
+     * @param key: 16-bit key
+     * @return cipherText: 16-bit S-AES encrypted message
+     **************************************************************************/
+    protected static short SAES_EncryptionRound(final short plainText, 
+            final byte[][] key){
         byte[][] state = shortToMatrix(plainText);
         short cipherText;
         
@@ -142,23 +176,20 @@ public class SAES_Encrypt {
         
         // Round 0
         state = addKey(state, k1);
-        System.out.printf("Round 0 state = %x%x%x%x\n", state[0][0], state[1][0], state[0][1], state[1][1]);
         
         // Round 1
         state = substituteNibbles(state);
         state = shiftRows(state);
         state = mixColumns(state);
         state = addKey(state, k2);
-        System.out.printf("Round 1 state = %x%x%x%x\n", state[0][0], state[1][0], state[0][1], state[1][1]);
         
-        // Round 2
-        
+        // Round 2     
         state = substituteNibbles(state);
         state = shiftRows(state);
         state = addKey(state, k3);
-        System.out.printf("Round 2 state = %x%x%x%x\n", state[0][0], state[1][0], state[0][1], state[1][1]);
         
-        System.out.printf("Cipher text = %x%x%x%x\n", state[0][0], state[1][0], state[0][1], state[1][1]);
+        System.out.printf("Cipher text = %x%x%x%x\n", state[0][0], state[1][0], 
+                state[0][1], state[1][1]);
         
         cipherText = matrixToShort(state);
         return cipherText;
