@@ -1,8 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/** Copyright 2014 Noel Niles
+ * 
+ * This file is part of SAES
+ *
+ * S-AES is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,10 +22,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author noel
- */
 public class SAES_EncryptTest {
     
     public SAES_EncryptTest() {
@@ -34,6 +42,16 @@ public class SAES_EncryptTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void shortToMatrix(){
+        System.out.println("Testing shortToMatrix");
+        final short input = 0x2d55;
+        final byte[][] expResult = {{0x02, 0x05}, {0x0d, 0x05}};
+        final byte[][] result = SAES_Encrypt.shortToMatrix(input);
+        System.out.printf("matrix= %x%x%x%x\n", result[0][0], result[0][1], result[1][0], result[1][1]);
+        assertArrayEquals(expResult, result);
+    }
 
     @Test
     public void addKeyTest() {
@@ -47,9 +65,11 @@ public class SAES_EncryptTest {
     @Test
     public void substituteNibblesTest(){
         System.out.println("Testing substituteNibbles() from SAES_Encrypt");
-        final byte[] nibArr = {0x8, 0x1, 0xa, 0xc};
-        final int expResult = 0x64c0;
-        final byte result = SAES_Encrypt.substituteNibbles(nibArr);
+        final byte[][] nibArr = {{0x8, 0x1}, {0xa, 0xc}};
+        final byte[][] expResult = {{0x6,0x4}, {0xc, 0x0}};
+        final byte[][] result = SAES_Encrypt.substituteNibbles(nibArr);
+        System.out.printf("substitute matrix= %x%x%x%x\n", result[0][0], result[0][1], result[1][0], result[1][1]);
+        assertArrayEquals(expResult, result);
     }
     @Test
     public void shiftRowsTest(){
@@ -67,5 +87,13 @@ public class SAES_EncryptTest {
         final byte[][] expResult ={{3, 4}, {0x7, 0x3}};
         final byte[][] result = SAES_Encrypt.mixColumns(state);
         assertArrayEquals(expResult, result);
+    }
+    @Test
+    public void SAES_EncryptionRoundTest(){
+        short plainText = 0x6f6b;
+        byte[][] key = {{0xa, 0x7}, {0x3, 0xb}};
+        short expResult = 0x0738;
+        short result = SAES_Encrypt.SAES_EncryptionRound(plainText, key);
+        assertEquals(expResult, result);
     }
 }

@@ -94,13 +94,6 @@ public class SAES_Key {
         byte[] rotWord = {rnib, lnib};
         return rotWord;
     }
-    
-    /** Substitutes nibbles using a table look in S-AES S-Box.
-     * 
-     * @param  nibArr: byte array that is output from the rotNib function.
-     * @return subbedByte: a new nibble that is found using a table lookup from 
-     *                     S-Box.
-     **************************************************************************/
     protected static byte subNib(final byte[] nibArr) {
         // x, y, xx, yy are indexes into the SBox
         int x, y;
@@ -111,10 +104,28 @@ public class SAES_Key {
         int xx, yy;
         xx = (nibArr[1] >>> 0x02) & 0x03;
         yy = nibArr[1] & 0x03;
-        
+
         byte subNib2 = SBox[xx][yy];
-        byte subbedByte = (byte) (((subNib1 & 0x0f) << 0x04) | (subNib2));
+        byte subbedByte = (byte) (((subNib1 & 0x0f) << 0x04) | (subNib2));        
         return subbedByte;
+    }
+    
+    /** Substitutes nibbles using a table look in S-AES S-Box.
+     * 
+     * @param  nibArr: byte array that is output from the rotNib function.
+     * @return subbedByte: a new nibble that is found using a table lookup from 
+     *                     S-Box.
+     **************************************************************************/
+    protected static byte[][] subNib(final byte[][] nibArr) {
+
+        byte[][] matrix = new byte[2][2];
+        byte[] w1 = {nibArr[0][0], nibArr[1][0]};
+        byte[] w2 = {nibArr[0][1], nibArr[1][1]};
+        matrix[0][0] = (byte)((subNib(w1) >>> 4) & 0xf);
+        matrix[1][0] = (byte)(subNib(w1) & 0xf);
+        matrix[0][1] = (byte)((subNib(w2) >>> 4) & 0xf);
+        matrix[1][1] = (byte)(subNib(w2) & 0xf);      
+        return matrix;
     }
     
     /** SAES_g function.
